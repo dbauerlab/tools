@@ -26,3 +26,21 @@ Usage:
 pip install pysam
 python find_deletions.py input.bam 250 > deletions.tsv
 ```
+
+## read_alignments.py
+For each mapped read that meets the length threshold, it outputs:
+
+- Read length
+- Chromosome name
+- Alignment start position (1-based)
+- Alignment end position
+- Size of the largest deletion in the read
+- Start position of the largest deletion
+- End position of the largest deletion
+
+All positions are 1-based for consistency with standard genomic coordinates. If a read has no deletions, the MaxDelSize will be 0 and DelStart/DelEnd will also be 0. Reads shorter than the specified minimum length are skipped. Unmapped reads are skipped.
+
+Usage:
+```
+python read_alignments.py input.bam 100 > report.tsv
+```
