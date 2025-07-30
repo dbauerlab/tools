@@ -17,3 +17,12 @@ Usage:
 pip install pysam
 python count_deletions.py input.bam > deletion_counts.tsv
 ```
+
+## find_deletions.py
+Returns a table of all deletions found in a BAM file with their size and location.
+
+Usage: 
+```
+pip install pysam
+python find_deletions.py input.bam > deletions.tsv
+```
