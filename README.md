@@ -10,7 +10,7 @@ Usage:
 ```
 
 ## count_deletions.py
-Counts the occurences of deletions of all sizes in a BAM file.
+Counts the occurences of deletions of all sizes in a BAM file. Skips reads less than a given length.
 
 Usage: 
 ```
@@ -19,10 +19,10 @@ python count_deletions.py input.bam 250 > deletion_counts.tsv
 ```
 
 ## find_deletions.py
-Returns a table of all deletions found in a BAM file with their size and location.
+Returns a table of all deletions found in a BAM file with their size and location. Skips reads less than a given length.
 
 Usage: 
 ```
 pip install pysam
-python find_deletions.py input.bam > deletions.tsv
+python find_deletions.py input.bam 250 > deletions.tsv
 ```
