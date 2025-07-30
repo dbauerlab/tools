@@ -2,11 +2,15 @@
 import pysam
 import sys
 
-def find_deletions(bam_file):
+def find_deletions(bam_file, min_read_length=0):
     # Open BAM file
     with pysam.AlignmentFile(bam_file, "rb") as bam:
         for read in bam.fetch(until_eof=True):
             if read.is_unmapped:
+                continue
+                
+            # Skip reads shorter than minimum length
+            if read.query_length < min_read_length:
                 continue
 
             ref_pos = read.reference_start  # Genomic start position of read
@@ -30,12 +34,13 @@ def find_deletions(bam_file):
                 # Other ops (insertions, padding) don't advance reference for deletions
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <input.bam>")
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <input.bam> <min_read_length>")
         sys.exit(1)
 
     bam_file = sys.argv[1]
+    min_read_length = int(sys.argv[2])
 
     print("Chromosome\tStart\tEnd\tDeletionSize")
-    for chrom, start, end, size in find_deletions(bam_file):
+    for chrom, start, end, size in find_deletions(bam_file, min_read_length):
         print(f"{chrom}\t{start+1}\t{end}\t{size}")
