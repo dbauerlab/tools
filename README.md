@@ -15,7 +15,7 @@ Counts the occurences of deletions of all sizes in a BAM file.
 Usage: 
 ```
 pip install pysam
-python count_deletions.py input.bam > deletion_counts.tsv
+python count_deletions.py input.bam 250 > deletion_counts.tsv
 ```
 
 ## find_deletions.py
