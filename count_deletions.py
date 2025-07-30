@@ -3,7 +3,7 @@ import pysam
 import sys
 from collections import Counter
 
-def count_deletions(bam_file):
+def count_deletions(bam_file, min_length=0):
     # Dictionary to store counts of deletion sizes
     deletion_sizes = Counter()
 
@@ -16,19 +16,20 @@ def count_deletions(bam_file):
             # Iterate over CIGAR operations
             for op, length in read.cigartuples or []:
                 # CIGAR code 2 means deletion from reference
-                if op == 2:
+                if op == 2 and length >= min_length:
                     deletion_sizes[length] += 1
 
     return deletion_sizes
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <input.bam>")
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <input.bam> <min_deletion_length>")
         sys.exit(1)
 
     bam_file = sys.argv[1]
-    deletions = count_deletions(bam_file)
+    min_length = int(sys.argv[2])
+    deletions = count_deletions(bam_file, min_length)
 
     bam_name = bam_file.split('/')[-1]
     print(f"DeletionSize\t{bam_name}")
